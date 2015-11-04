@@ -7,12 +7,17 @@ use Response;
 class AjaxController extends Controller
 {
 
+    /**
+     * @param $id
+     */
     public function getEmployee($id)
     {
-        $results = DB::select('SELECT EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, BirthDate, HireDate, Address, City, Region, PostalCode, Country, HomePhone,
-                                Extension, Notes, ReportsTo, PhotoPath, Salary FROM Employees WHERE EmployeeID = ?', array($id));
-        $results = $results[0];
-        return json_encode($results);
+        $results = DB::select('SELECT * FROM employee e INNER JOIN contact c ON e.ContactID = c.ContactID WHERE  EmployeeID = ?', array($id));
+
+        $results = (array)$results[0];
+        $results = array_map('utf8_encode', $results);
+        echo json_encode($results);
+
 /*
         echo '<tr><td><strong>ID</strong></td><td>'.$results->EmployeeID.'</td></tr>';
         echo '<tr><td><strong>Title Of Courtesy</strong></td><td>'.$results->TitleOfCourtesy.'</td></tr>';
@@ -33,5 +38,18 @@ class AjaxController extends Controller
         echo '<tr><td><strong>PhotoPath</strong></td><td>'.$results->PhotoPath.'</td></tr>';
         echo '<tr><td><strong>Salary</strong></td><td>'.$results->Salary.'</td></tr>';
 */
+    }
+
+
+    /**
+     * @param $id
+     */
+    public function getOutcome($id)
+    {
+        $results = DB::select('SELECT * FROM outcome WHERE id = ?', array($id));
+
+        $results = (array)$results[0];
+        $results = array_map('utf8_encode', $results);
+        echo json_encode($results);
     }
 }

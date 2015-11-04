@@ -2,28 +2,16 @@
 <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
-            <a href="#">RL Admin System</a>
+            <a href="#">Admin System</a>
         </li>
         <li>
             <a href="home">Dashboard</a>
         </li>
         <li>
-            <a href="employees">Employees</a>
+            <a href="employees">Income</a>
         </li>
         <li>
-            <a href="users">Users</a>
-        </li>
-        <li>
-            <a href="#">Events</a>
-        </li>
-        <li>
-            <a href="#">About</a>
-        </li>
-        <li>
-            <a href="#">Services</a>
-        </li>
-        <li>
-            <a href="#">Contact</a>
+            <a href="outcome">Outcome</a>
         </li>
     </ul>
 </div>

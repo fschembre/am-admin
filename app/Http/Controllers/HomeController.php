@@ -14,7 +14,21 @@ class HomeController extends Controller
 
     public function employees() {
         //$results = DB::select('select * from Employees', array());
-        $results = DB::table('Employees')->paginate(10);
+        $results = DB::table('employee')
+                        ->join('contact', 'employee.ContactID', '=', 'contact.ContactID')
+                        ->paginate(10);
+
+        //$results = DB::select(' SELECT FirstName, LastName FROM employee e INNER JOIN contact c ON e.ContactID = c.ContactID', array());
+        //$results->paginate(10);
+       foreach ($results as $row) {
+           $ret[] = $row;
+       }
+        //var_dump($ret);
+        //exit();
+/*        SELECT FirstName, LastName FROM employee e
+INNER JOIN contact c ON e.ContactID = c.ContactID
+*/
+
       //  $results = $results->simplePaginate(15);
         //$users = DB::table('users')->simplePaginate(15);
         return View('pages.employees', ['employees' => $results, 'base_url' =>  url() ]);
@@ -30,6 +44,6 @@ class HomeController extends Controller
 
     public function test() {
         $results = DB::select('select * from Employees', array());
-        return View('pages.test', ['employees' => $results, 'base_url' =>  url() ]);
+        return View('pages.test', ['employee' => $results, 'base_url' =>  url() ]);
     }
 }

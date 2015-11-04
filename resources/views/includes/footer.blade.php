@@ -5,6 +5,8 @@
 -->
 <!-- Bootstrap Core JavaScript -->
  <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+<!-- Bootstrap Select -->
+<script src="{{ asset('assets/js/bootstrap-select.js') }}"></script>
 
 <!-- Menu Toggle Script -->
 <script>

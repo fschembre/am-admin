@@ -14,13 +14,11 @@
                     <tr>
                         <th>EmployeeID</th>
                         <th>Name</th>
-                        <th>Title</th>
                     </tr>
                     @foreach ($employees as $employee)
                         <tr>
                             <td>{{ $employee->EmployeeID }}</td>
                             <td><a  onclick="getEmployee({{ $employee->EmployeeID }})"> {{ $employee->FirstName }} {{ $employee->LastName}}</a></td>
-                            <td>{{ $employee->Title }}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -34,10 +32,15 @@
     <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
         <div class="modal-dialog" role="document" style=" width: 40%;">
             <div class="panel panel-primary">
-
                 <div class="panel-heading">
-                    <h3 class="panel-title">Employee Details<div style="display:inline;float:right;">
-                     
+                    <div class="showHeader">
+                        <!-- Content goes here refer tp JS function getEmployee -->
+                    </div>
+                </div>
+                <div class="modal-body" align="center">
+                    <table border="1">
+                        <!-- Content goes here refer tp JS function getEmployee -->
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -58,7 +61,7 @@
                 </div>
                 <div class="modal-body" align="center">
                     <table border="1">
-                    <!-- Content goes here -->
+                        <!-- Content goes here refer tp JS function editEmployee -->
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -82,30 +85,35 @@
             </div>
         </div>
     </div>
-    <textarea name="comment" form="usrform">Enter text here...</textarea>
+
 <script>
 
     // Display employee details
     function getEmployee(id) {
+        //Select show modal
         $('#showModal').modal('toggle')
+
         //Delete current data
+        $(".panel-heading-show").text('');
         $(".modal-body").text('');
 
-
-        
-        str =  "<a href='#' onclick='editEmployee({{ $employee->EmployeeID }})' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-edit'></span>   </a>";
-        str += "<a href='#' class='btn btn-xs btn-danger'><span class='glyphicon glyphicon-trash'></span>   </a>";
-        str += "/h3> </div> <div class='modal-body' align='center'>";
-                    <!-- Content goes here -->
-        $(".modal-body").append( str);
         //Fetch data
         $.getJSON( "/employees/get/"+id, function( data ) {
-            var items = [];
+
+            console.log(data);
+            <!-- Header content -->
+            $(".showHeader").text("Employee Details - "+data.FirstName+" "+data.LastName);
+            str = "<div style='float:right'>";
+            str +=  "<a href='#' onclick='editEmployee({{ $employee->EmployeeID }})' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-edit'></span></a>";
+            str += "&nbsp&nbsp<a href='#' class='btn btn-xs btn-danger'><span class='glyphicon glyphicon-trash'></span></a></div>";
+            $(".showHeader").append(str);
+
             $.each( data, function( key, val ) {
-                //Add line of data to modal window
+                <!-- Content goes here -->
                 $(".modal-body").append("<tr><td align='left' width='150'><strong>"+key+"</strong></td><td style='padding:5px' align='left'>"+val+"</td></tr>");
             });
         });
+
     };
 
 
@@ -121,12 +129,7 @@
             $.each( data, function( key, val ) {
                 //Add line of data to modal window
                 console.log(key);
-                if (key == 'Notes') {
-                    $(".modal-body").append("<tr><td align='left' width='500'><strong>"+key+"</strong></td><td align='left'><textarea cols='46' rows='4'>"+val+"</textarea></td></tr>");
-                } else {
                     $(".modal-body").append("<tr><td align='left'><strong>"+key+"</strong></td><td align='left' ><input type='text' style='width:400px;margin-right:150px' value='"+val+"'></td></tr>");
-                }
-
             });
         });
     };

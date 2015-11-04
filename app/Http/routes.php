@@ -24,25 +24,21 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+//Web routes
 Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 Route::get('/home', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 Route::get('/employees', ['middleware' => 'auth', 'uses' => 'HomeController@employees']);
 Route::get('/users', ['middleware' => 'auth', 'uses' => 'HomeController@users']);
 //Route::post('/employees', ['middleware' => 'auth', 'uses' => 'HomeController@employeesPost']);
 
+//Ajax routes
 Route::get('/employees/get/{id}', ['middleware' => 'auth', 'uses' => 'AjaxController@getEmployee']);
+Route::get('/users/get/{id}', ['middleware' => 'auth', 'uses' => 'AjaxController@getUser']);
 
-Route::get('/test2', ['middleware' => 'auth', 'uses' => 'HomeController@test']);
 
-//A route to handle this Ajax request
-Route::post('/saveInterests',array('as'=>'interests.Profile','uses'=>'HomeController@saveInterests'));
-
-Route::get('dos','HomeController@DOS');
-
-Route::post('/employees', function()
-{
-    return View::make('pages.home');
-});
+//outCome routes
+Route::resource('outcome', 'OutcomeController');
+Route::get('/outcome/get/{id}', ['middleware' => 'auth', 'uses' => 'AjaxController@getOutcome']);
 
 
 
